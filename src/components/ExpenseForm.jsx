@@ -11,7 +11,6 @@ const ExpenseForm = ({ onAddExpense, onEditExpense, editingExpense, onClose }) =
     paymentMethod: "cash",
   });
 
-  // Populate form when editing
   useEffect(() => {
     if (editingExpense) {
       setFormData(editingExpense);
@@ -31,7 +30,7 @@ const ExpenseForm = ({ onAddExpense, onEditExpense, editingExpense, onClose }) =
     }
 
     if (editingExpense) {
-      onEditExpense({ ...formData, id: editingExpense.id });
+      onEditExpense(formData);
     } else {
       onAddExpense(formData);
     }
@@ -43,13 +42,13 @@ const ExpenseForm = ({ onAddExpense, onEditExpense, editingExpense, onClose }) =
       category: "",
       paymentMethod: "cash",
     });
+
+    if (onClose) onClose();
   };
 
   return (
     <form className="p-4 bg-white shadow-md rounded-lg" onSubmit={handleSubmit}>
-      <h2 className="text-xl font-bold mb-4">
-        {editingExpense ? 'Edit Expense' : 'Add Expense'}
-      </h2>
+      <h2 className="text-xl font-bold mb-4">{editingExpense ? "Edit Expense" : "Add Expense"}</h2>
       <div className="grid gap-4">
         <input
           type="number"
@@ -87,17 +86,10 @@ const ExpenseForm = ({ onAddExpense, onEditExpense, editingExpense, onClose }) =
           <option value="credit">Credit</option>
         </select>
         <div className="flex gap-2">
-          <button 
-            className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded flex-1" 
-            type="submit"
-          >
-            {editingExpense ? 'Update Expense' : 'Add Expense'}
+          <button className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded flex-1" type="submit">
+            {editingExpense ? "Update Expense" : "Add Expense"}
           </button>
-          <button 
-            className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded flex-1" 
-            type="button" 
-            onClick={onClose}
-          >
+          <button className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded flex-1" type="button" onClick={onClose}>
             Cancel
           </button>
         </div>

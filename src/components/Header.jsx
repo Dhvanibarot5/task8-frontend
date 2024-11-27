@@ -1,15 +1,8 @@
-import React, { useState } from 'react'
-import ExpenseForm from './ExpenseForm'
+import React from 'react';
 import { Link } from 'react-router-dom';
+import ExpenseForm from './ExpenseForm';
 
-function Header({ onAddExpense }) {
-  const [showExpenseForm, setShowExpenseForm] = useState(false);
-
-  const handleAddExpense = (expenseData) => {
-    onAddExpense(expenseData);
-    setShowExpenseForm(false);
-  };
-
+function Header({ showExpenseForm, setShowExpenseForm, onAddExpense }) {
   return (
     <>
       <header className="bg-white shadow-sm border-b border-gray-200">
@@ -26,9 +19,9 @@ function Header({ onAddExpense }) {
               <Link to="/expenses" className="text-gray-600 hover:text-gray-900 font-medium">
                 Expenses
               </Link>
-              <a href="/reports" className="text-gray-600 hover:text-gray-900 font-medium">
+              <Link to="/reports" className="text-gray-600 hover:text-gray-900 font-medium">
                 Reports
-              </a>
+              </Link>
               <button 
                 onClick={() => setShowExpenseForm(true)}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
@@ -40,23 +33,18 @@ function Header({ onAddExpense }) {
         </div>
       </header>
 
-      {/* Modal Overlay */}
       {showExpenseForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="relative w-full max-w-md">
-            {/* Close button */}
-            <button
-              onClick={() => setShowExpenseForm(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              ✕
-            </button>
-            <ExpenseForm onAddExpense={handleAddExpense} />
+            <ExpenseForm 
+              onAddExpense={onAddExpense}
+              onClose={() => setShowExpenseForm(false)}
+            />
           </div>
         </div>
       )}
     </>
-  )
+  );
 }
 
-export default Header
+export default Header;
