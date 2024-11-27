@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const categories = ["Food", "Travel", "Shopping", "Bills", "Others"];
 
-const ExpenseForm = ({ onAddExpense, onClose }) => {
+const ExpenseForm = ({ onAddExpense, onEditExpense, editingExpense, onClose }) => {
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
@@ -10,6 +10,13 @@ const ExpenseForm = ({ onAddExpense, onClose }) => {
     category: "",
     paymentMethod: "cash",
   });
+
+  // Populate form when editing
+  useEffect(() => {
+    if (editingExpense) {
+      setFormData(editingExpense);
+    }
+  }, [editingExpense]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +29,13 @@ const ExpenseForm = ({ onAddExpense, onClose }) => {
       alert("Please provide valid inputs.");
       return;
     }
-    onAddExpense(formData);
+
+    if (editingExpense) {
+      onEditExpense({ ...formData, id: editingExpense.id });
+    } else {
+      onAddExpense(formData);
+    }
+
     setFormData({
       amount: "",
       description: "",
@@ -34,6 +47,9 @@ const ExpenseForm = ({ onAddExpense, onClose }) => {
 
   return (
     <form className="p-4 bg-white shadow-md rounded-lg" onSubmit={handleSubmit}>
+      <h2 className="text-xl font-bold mb-4">
+        {editingExpense ? 'Edit Expense' : 'Add Expense'}
+      </h2>
       <div className="grid gap-4">
         <input
           type="number"
@@ -71,10 +87,17 @@ const ExpenseForm = ({ onAddExpense, onClose }) => {
           <option value="credit">Credit</option>
         </select>
         <div className="flex gap-2">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded flex-1" type="submit">
-            Add Expense
+          <button 
+            className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded flex-1" 
+            type="submit"
+          >
+            {editingExpense ? 'Update Expense' : 'Add Expense'}
           </button>
-          <button className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded flex-1" type="button" onClick={onClose}>
+          <button 
+            className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded flex-1" 
+            type="button" 
+            onClick={onClose}
+          >
             Cancel
           </button>
         </div>

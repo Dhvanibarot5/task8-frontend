@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ExpenseList({ expenses }) {
+function ExpenseList({ expenses, onDelete, onEdit }) {
   // Function to format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
@@ -43,8 +43,8 @@ function ExpenseList({ expenses }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {expenses && expenses.length > 0 ? (
-                expenses.map((expense, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
+                expenses.map((expense) => (
+                  <tr key={expense.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {formatDate(expense.date)}
                     </td>
@@ -63,10 +63,16 @@ function ExpenseList({ expenses }) {
                       {expense.paymentMethod}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button className="text-red-600 hover:text-red-900 mr-4">
+                      <button 
+                        onClick={() => onDelete(expense.id)}
+                        className="text-red-600 hover:text-red-900 mr-4"
+                      >
                         Delete
                       </button>
-                      <button className="text-blue-600 hover:text-blue-900">
+                      <button 
+                        onClick={() => onEdit(expense)}
+                        className="text-blue-600 hover:text-blue-900"
+                      >
                         Edit
                       </button>
                     </td>
