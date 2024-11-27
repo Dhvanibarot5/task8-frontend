@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ExpenseForm from './ExpenseForm'
+import { Link } from 'react-router-dom';
 
 function Header({ onAddExpense }) {
   const [showExpenseForm, setShowExpenseForm] = useState(false);
@@ -19,12 +20,12 @@ function Header({ onAddExpense }) {
             </h1>
             
             <nav className="flex items-center space-x-6">
-              <a href="/" className="text-gray-600 hover:text-gray-900 font-medium">
+              <Link to="/" className="text-gray-600 hover:text-gray-900 font-medium">
                 Dashboard
-              </a>
-              <a href="/expenses" className="text-gray-600 hover:text-gray-900 font-medium">
+              </Link>
+              <Link to="/expenses" className="text-gray-600 hover:text-gray-900 font-medium">
                 Expenses
-              </a>
+              </Link>
               <a href="/reports" className="text-gray-600 hover:text-gray-900 font-medium">
                 Reports
               </a>

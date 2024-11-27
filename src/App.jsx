@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Dashboard from './components/Dashboard';
 import ExpenseList from './components/ExpenseList';
 
 function App() {
@@ -30,20 +32,30 @@ function App() {
   };
 
   return (
-    <div>
-      <Header 
-        showExpenseForm={showExpenseForm}
-        setShowExpenseForm={setShowExpenseForm}
-        onAddExpense={handleAddExpense}
-        editingExpense={editingExpense}
-        onEditExpense={handleEditExpense}
-      />
-      <ExpenseList 
-        expenses={expenses}
-        onDelete={handleDeleteExpense}
-        onEdit={startEditing}
-      />
-    </div>
+    <Router>
+      <div>
+        <Header 
+          showExpenseForm={showExpenseForm}
+          setShowExpenseForm={setShowExpenseForm}
+          onAddExpense={handleAddExpense}
+          editingExpense={editingExpense}
+          onEditExpense={handleEditExpense}
+        />
+        <Routes>
+          <Route path="/" element={<Dashboard expenses={expenses} />} />
+          <Route 
+            path="/expenses" 
+            element={
+              <ExpenseList 
+                expenses={expenses}
+                onDelete={handleDeleteExpense}
+                onEdit={startEditing}
+              />
+            } 
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
